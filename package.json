@@ -1,0 +1,18 @@
+{
+    "name": "appointus-api",
+    "version": "1.0.0",
+    "description": "## Project setup ``` npm install ```",
+    "scripts": {
+        "dev": "supervisor app"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/appointus/api.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/appointus/api/issues"
+    },
+    "homepage": "https://github.com/appointus/api#readme"
+}
