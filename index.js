@@ -9,8 +9,8 @@ app.get("/clients", jsonParser, function(req, res) {
   var mongoClient = new MongoClient(url, { useNewUrlParser: true });
   return mongoClient.connect(function(err, client) {
     if (err) return res.send(err).status(503);
-    var db = client.db("clientsDB");
-    var coll = db.collection("clientsCol");
+    var db = client.db("appointus");
+    var coll = db.collection("clients");
 
     return coll.find().toArray(function(err, result) {
       if (err) return res.send(err).status(503);
@@ -19,12 +19,13 @@ app.get("/clients", jsonParser, function(req, res) {
     });
   });
 });
+
 app.post("/clients", jsonParser, function(req, res) {
   var mongoClient = new MongoClient(url, { useNewUrlParser: true });
   return mongoClient.connect(function(err, client) {
     if (err) return res.send(err).status(503);
-    var db = client.db("clientsDB");
-    var coll = db.collection("clientsCol");
+    var db = client.db("appointus");
+    var coll = db.collection("clients");
 
     return coll.insertOne(req.body, function(err, result) {
       if (err) return res.send(err).status(503);
