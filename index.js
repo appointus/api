@@ -4,13 +4,8 @@ var bodyParser = require("body-parser");
 var jsonParser = bodyParser.json({ extended: false });
 var mongoose = require("mongoose");
 var uristring = "mongodb://localhost:27017/appointus";
+var Client = require("./models/clients");
 
-var clientSchema = new mongoose.Schema({
-  first_name: { type: String, trim: true },
-  last_name: { type: String, trim: true },
-  phone: { type: Number }
-});
-var clients = mongoose.model("clients", clientSchema);
 mongoose.connect(uristring, { useNewUrlParser: true }, function(err) {
   if (err) {
     console.log(err);
@@ -18,14 +13,14 @@ mongoose.connect(uristring, { useNewUrlParser: true }, function(err) {
 });
 
 app.get("/clients", jsonParser, function(req, res) {
-  clients.find(function(err, clients) {
+  Client.find(function(err, clients) {
     if (err) return console.error(err);
     res.send(clients);
   });
 });
 
 app.post("/clients", jsonParser, function(req, res) {
-  var clientToAdd = new clients({
+  var clientToAdd = new Client({
     first_name: req.body.first_name,
     last_name: req.body.last_name,
     phone: req.body.phone
