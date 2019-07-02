@@ -2,36 +2,37 @@ var express = require("express");
 var app = express();
 var bodyParser = require("body-parser");
 var jsonParser = bodyParser.json({ extended: false });
-var MongoClient = require("mongodb").MongoClient;
-var url = "mongodb://localhost:27017/";
+var mongoose = require("mongoose");
+var uristring = "mongodb://localhost:27017/appointus";
+
+var clientSchema = new mongoose.Schema({
+  first_name: { type: String, trim: true },
+  last_name: { type: String, trim: true },
+  phone: { type: Number }
+});
+var clients = mongoose.model("clients", clientSchema);
+mongoose.connect(uristring, { useNewUrlParser: true }, function(err) {
+  if (err) {
+    console.log(err);
+  }
+});
 
 app.get("/clients", jsonParser, function(req, res) {
-  var mongoClient = new MongoClient(url, { useNewUrlParser: true });
-  return mongoClient.connect(function(err, client) {
-    if (err) return res.send(err).status(503);
-    var db = client.db("appointus");
-    var coll = db.collection("clients");
-
-    return coll.find().toArray(function(err, result) {
-      if (err) return res.send(err).status(503);
-      res.send(result);
-      client.close();
-    });
+  clients.find(function(err, clients) {
+    if (err) return console.error(err);
+    res.send(clients);
   });
 });
 
 app.post("/clients", jsonParser, function(req, res) {
-  var mongoClient = new MongoClient(url, { useNewUrlParser: true });
-  return mongoClient.connect(function(err, client) {
-    if (err) return res.send(err).status(503);
-    var db = client.db("appointus");
-    var coll = db.collection("clients");
-
-    return coll.insertOne(req.body, function(err, result) {
-      if (err) return res.send(err).status(503);
-      res.send({ result: result });
-      client.close();
-    });
+  var clientToAdd = new clients({
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+    phone: req.body.phone
+  });
+  clientToAdd.save(function(err, client) {
+    if (err) console.log("Error on save!");
+    res.send(client);
   });
 });
 
