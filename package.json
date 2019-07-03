@@ -1,23 +1,23 @@
 {
-    "name": "appointus-api",
-    "version": "1.0.0",
-    "description": "## Project setup ``` npm install ```",
-    "scripts": {
-        "dev": "supervisor app"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/appointus/api.git"
-    },
-    "author": "",
-    "license": "ISC",
-    "bugs": {
-        "url": "https://github.com/appointus/api/issues"
-    },
-    "homepage": "https://github.com/appointus/api#readme",
-    "dependencies": {
-        "body-parser": "^1.19.0",
-        "express": "^4.17.1",
-        "mongodb": "^3.2.7"
-    }
+  "name": "appointus-api",
+  "version": "1.0.0",
+  "description": "## Project setup ``` npm install ```",
+  "scripts": {
+    "dev": "supervisor app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/appointus/api.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/appointus/api/issues"
+  },
+  "homepage": "https://github.com/appointus/api#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.6.2"
+  }
 }
