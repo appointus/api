@@ -3,6 +3,9 @@ var app = express();
 var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json({ extended: false });
 var mongoose = require('mongoose');
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 var uristring = 'mongodb://localhost:27017/appointus';
 var Client = require('./models/clients');
 
@@ -13,7 +16,7 @@ mongoose.connect(uristring, { useNewUrlParser: true }, function(err) {
 });
 app.put('/clients/:id', jsonParser, function(req, res) {
 	Client.findOneAndUpdate(
-		req.params.id,
+		{ _id: req.params.id },
 		{
 			$set: {
 				first_name: req.body.new_first_name,
