@@ -3,7 +3,6 @@ var app = express();
 var bodyParser = require('body-parser');
 var jsonParser = bodyParser.json({ extended: false });
 var mongoose = require('mongoose');
-mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 var uristring = 'mongodb://localhost:27017/appointus';
