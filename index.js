@@ -15,25 +15,22 @@ mongoose.connect(uristring, { useNewUrlParser: true }, function(err) {
   }
 });
 app.put('/clients/:id', jsonParser, function(req, res) {
-  var Cheking = function() {
-    if (Object.keys(req.body).length === 0) res.status(500).send('Error');
-    var newClients = {};
-    if (req.body.first_name != null) {
-      newClients['first_name'] = req.body.first_name;
-    }
-    if (req.body.last_name != null) {
-      newClients['last_name'] = req.body.last_name;
-    }
-    if (req.body.phone != null) {
-      newClients['phone'] = req.body.phone;
-    }
-    console.log(newClients);
-    return newClients;
-  };
+  if (Object.keys(req.body).length === 0) res.status(500).send('Error');
+  var newClients = {};
+  if (req.body.first_name != null) {
+    newClients['first_name'] = req.body.first_name;
+  }
+  if (req.body.last_name != null) {
+    newClients['last_name'] = req.body.last_name;
+  }
+  if (req.body.phone != null) {
+    newClients['phone'] = req.body.phone;
+  }
+
   Client.findOneAndUpdate(
     { _id: req.params.id },
     {
-      $set: Cheking()
+      $set: newClients
     },
     { new: true },
     function(err, doc) {
