@@ -1,9 +1,11 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var cron = require('./crons/smsTomorrow');
 
 var uristring = 'mongodb://localhost:27017/appointus';
 var mongoose = require('mongoose');
+
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.connect(uristring, { useNewUrlParser: true }, function(err) {
@@ -17,3 +19,5 @@ app.use(require('./routes/clients'));
 app.use(require('./routes/appointments'));
 
 app.listen(3000);
+
+cron.runSMS();
