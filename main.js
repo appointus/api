@@ -13,7 +13,7 @@ mongoose.connect(uristring, { useNewUrlParser: true }, function(err) {
 });
 
 app.use(bodyParser.json());
-app.use(require('./routes/clientsroute'));
-app.use(require('./routes/appointmentsroute'));
+app.use(require('./routes/clients'));
+app.use(require('./routes/appointments'));
 
 app.listen(3000);
