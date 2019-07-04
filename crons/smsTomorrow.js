@@ -36,7 +36,7 @@ exports.runSMS = function() {
               },
               function(error, result) {
                 if (err) console.error(err);
-                console.log('cron - smsTomorrow');
+                console.log(`cron - smsTomorrow - ${appoint.client.last_name}`);
               }
             );
           });
