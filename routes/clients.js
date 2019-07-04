@@ -1,0 +1,44 @@
+const router = require('express').Router();
+var Client = require('../models/clients');
+
+router.put('/clients/:id', function(req, res) {
+  if (Object.keys(req.body).length === 0) res.status(500).send('Error');
+  var newClients = {};
+  const allowedProps = [ 'first_name', 'last_name', 'phone' ];
+  allowedProps.forEach((prop) => {
+    if (req.body.hasOwnProperty(prop)) newClients[prop] = req.body[prop];
+  });
+
+  Client.findOneAndUpdate(
+    { _id: req.params.id },
+    {
+      $set: newClients
+    },
+    { new: true },
+    function(err, doc) {
+      if (err) console.log(err);
+      res.send(doc);
+    }
+  );
+});
+
+router.get('/clients', function(req, res) {
+  Client.find(function(err, clients) {
+    if (err) return console.error(err);
+    res.send(clients);
+  });
+});
+
+router.post('/clients', function(req, res) {
+  var clientToAdd = new Client({
+    first_name: req.body.first_name,
+    last_name: req.body.last_name,
+    phone: req.body.phone
+  });
+  clientToAdd.save(function(err, client) {
+    if (err) console.log('Error on save!');
+    res.send(client);
+  });
+});
+
+module.exports = router;
