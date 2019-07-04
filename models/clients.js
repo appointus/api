@@ -1,4 +1,4 @@
-var mongoose = require("mongoose");
+var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var clientSchema = new Schema({
@@ -7,4 +7,4 @@ var clientSchema = new Schema({
   phone: { type: String, trim: true }
 });
 
-module.exports = mongoose.model("clients", clientSchema);
+module.exports = mongoose.model('clients', clientSchema);
