@@ -1,8 +1,8 @@
 const router = require('express').Router();
 var Appointment = require('../models/appointments');
 
-router.get('/appointments', function(req, res) {
-  Appointment.find({ date: req.body.date }).populate('client').exec(function(err, client) {
+router.get('/appointments/:date', function(req, res) {
+  Appointment.find({ date: req.params.date }).populate('client').exec(function(err, client) {
     if (err) console.error(err);
     res.send(client);
   });
