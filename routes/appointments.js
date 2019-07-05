@@ -19,5 +19,24 @@ router.post('/appointments', function(req, res) {
     res.send(appointment);
   });
 });
+router.put('/appointments/:id', function(req, res) {
+  if (Object.keys(req.body).length === 0) res.status(500).send('Error');
+  var newAppointment = {};
+  const allowedProps = [ 'date', 'time' ];
+  allowedProps.forEach((prop) => {
+    if (req.body.hasOwnProperty(prop)) newClients[prop] = req.body[prop];
+  });
 
+  Client.findOneAndUpdate(
+    { _id: req.params.id },
+    {
+      $set: newAppointment
+    },
+    { new: true },
+    function(err, doc) {
+      if (err) console.log(err);
+      res.send(doc);
+    }
+  );
+});
 module.exports = router;
