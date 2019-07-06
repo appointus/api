@@ -58,5 +58,4 @@ router.post('/clients', function(req, res) {
     res.send(client);
   });
 });
-
 module.exports = router;

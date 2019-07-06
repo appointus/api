@@ -24,10 +24,10 @@ router.put('/appointments/:id', function(req, res) {
   var newAppointment = {};
   const allowedProps = [ 'date', 'time' ];
   allowedProps.forEach((prop) => {
-    if (req.body.hasOwnProperty(prop)) newClients[prop] = req.body[prop];
+    if (req.body.hasOwnProperty(prop)) newAppointment[prop] = req.body[prop];
   });
 
-  Client.findOneAndUpdate(
+  Appointment.findOneAndUpdate(
     { _id: req.params.id },
     {
       $set: newAppointment
@@ -38,5 +38,11 @@ router.put('/appointments/:id', function(req, res) {
       res.send(doc);
     }
   );
+});
+router.delete('/appointments/:id/delete', function(req, res) {
+  Appointment.deleteOne({ _id: req.params.id }, function(err, result) {
+    if (err) console.log(err);
+    res.send(result);
+  });
 });
 module.exports = router;
