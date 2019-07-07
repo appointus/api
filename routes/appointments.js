@@ -1,5 +1,10 @@
 const router = require('express').Router();
 var Appointment = require('../models/appointments');
+var moment = require('moment');
+
+const BaseJoi = require('@hapi/joi');
+const Extension = require('@hapi/joi-date');
+const Joi = BaseJoi.extend(Extension);
 
 router.get('/appointments/:date', function(req, res) {
   Appointment.find({ date: req.params.date }).populate('client').exec(function(err, client) {
@@ -9,6 +14,12 @@ router.get('/appointments/:date', function(req, res) {
 });
 
 router.post('/appointments', function(req, res) {
+  var currentDate = moment().format('YYYY-MM-DD');
+  var currentTime = moment().format('H:mm');
+  const { error } = validateAppointment(req.body); //object destructuring , the same as result.error
+  if (error) return res.status(400).send(error.details[0].message);
+  if (currentDate > req.body.date || (currentDate == req.body.date && currentTime > req.body.time))
+    return res.status(400).send('It is not possible to add an appointment in the past');
   var appointmentToAdd = new Appointment({
     date: req.body.date,
     time: req.body.time,
@@ -19,5 +30,14 @@ router.post('/appointments', function(req, res) {
     res.send(appointment);
   });
 });
+
+function validateAppointment(appointment) {
+  const schema = {
+    date: Joi.date().format('YYYY-MM-DD'),
+    time: Joi.date().format('H:mm').required(),
+    client: Joi.string().required()
+  };
+  return Joi.validate(appointment, schema);
+}
 
 module.exports = router;
