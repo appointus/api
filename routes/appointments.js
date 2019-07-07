@@ -33,7 +33,7 @@ router.post('/appointments', function(req, res) {
 
 function validateAppointment(appointment) {
   const schema = {
-    date: Joi.date().format('YYYY-MM-DD'),
+    date: Joi.date().format('YYYY-MM-DD').required(),
     time: Joi.date().format('H:mm').required(),
     client: Joi.string().required()
   };
