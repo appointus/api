@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var cron = require('./crons/smsTomorrow');
+var crons = require('./crons/smsWeek');
 
 var uristring = 'mongodb://localhost:27017/appointus';
 var mongoose = require('mongoose');
@@ -21,3 +22,4 @@ app.use(require('./routes/appointments'));
 app.listen(3000);
 
 cron.runSMS();
+crons.runSMSWeek();
