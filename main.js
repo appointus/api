@@ -3,15 +3,11 @@ var app = express();
 var bodyParser = require('body-parser');
 var cron = require('./crons/smsTomorrow');
 var config = require('./config');
+var cors = require('cors');
 
 var mongoose = require('mongoose');
 
-app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-  res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
-  next();
-});
+app.use(cors());
 
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
