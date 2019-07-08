@@ -9,7 +9,7 @@ exports.sendSms = function(appointId) {
       turboSms.sendSmsClient(
         `${appoint.client.phone}`,
         `Dear ${appoint.client.first_name} ${appoint.client
-          .last_name},  we notify you that you have new appointment on ${appoint.date}, at ${appoint.time}`
+          .last_name},  we notify you that you have new appointment on ${appoint.date}, at ${appoint.time} `
       );
     });
   });
