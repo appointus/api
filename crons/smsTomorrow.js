@@ -3,10 +3,8 @@ const Cookie = require('soap-cookie');
 const schedule = require('node-schedule');
 const moment = require('moment');
 const Appointment = require('../models/appointments');
-
+const turboSms = require('../utils/turboSms');
 const url = 'http://turbosms.in.ua/api/wsdl.html';
-const sender = 'Msg';
-const authData = { login: '', password: '' };
 const tomorrowSchedule = '00 19 * * *';
 
 exports.runSMS = function() {
@@ -19,28 +17,15 @@ exports.runSMS = function() {
     const date = year + '-' + month + '-' + day;
 
     // Connect to TurboSMS
-    soap.createClient(url, function(error, smsClient) {
-      smsClient.Auth(authData, function(error, result) {
-        // Set cookie
-        smsClient.setSecurity(new Cookie(smsClient.lastResponseHeaders));
-        Appointment.find({ date }).populate('client').exec(function(err, appoints) {
-          if (err) console.error(err);
-          // Send SMS to all clients of tomorrow's appointmens
-          appoints.forEach((appoint) => {
-            smsClient.SendSMS(
-              {
-                sender,
-                destination: `${appoint.client.phone}`,
-                text: `${appoint.client.first_name} ${appoint.client
-                  .last_name}, we remind you that Tomorrow, ${appoint.date}, at ${appoint.time} you have a meeting.`
-              },
-              function(error, result) {
-                if (err) console.error(err);
-                console.log(`cron - smsTomorrow - ${appoint.client.last_name}`);
-              }
-            );
-          });
-        });
+    Appointment.find({ date }).populate('client').exec(function(err, appoints) {
+      if (err) console.error(err);
+      // Send SMS to all clients of tomorrow's appointmens
+      appoints.forEach((appoint) => {
+        turboSms.sendSmsClient(
+          `${appoint.client.phone}`,
+          `Dear ${appoint.client.first_name} ${appoint.client
+            .last_name}, we remind you that next week, ${appoint.date}, at ${appoint.time} you have appointment.`
+        );
       });
     });
   });
