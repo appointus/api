@@ -7,7 +7,6 @@ const weekSchedule = '00 19 * * *';
 
 exports.runSMSWeek = function() {
   schedule.scheduleJob(weekSchedule, function() {
-    // Prepare tomorrow's date
     const week = moment().add(7, 'day');
     const year = week.year().toString();
     const month = (week.month() + 1).toString().padStart(2, '0');
@@ -16,7 +15,6 @@ exports.runSMSWeek = function() {
 
     Appointment.find({ date }).populate('client').exec(function(err, appoints) {
       if (err) console.error(err);
-      // Send SMS to all clients of tomorrow's appointmens
       appoints.forEach((appoint) => {
         turboSms.sendSmsClient(
           `${appoint.client.phone}`,
