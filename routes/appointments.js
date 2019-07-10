@@ -19,6 +19,7 @@ router.post('/appointments', function(req, res) {
     res.send(appointment);
   });
 });
+
 router.put('/appointments/:id', function(req, res) {
   if (Object.keys(req.body).length === 0) res.status(500).send('Error');
   var newAppointment = {};
@@ -39,10 +40,12 @@ router.put('/appointments/:id', function(req, res) {
     }
   );
 });
+
 router.delete('/appointments/:id/delete', function(req, res) {
   Appointment.deleteOne({ _id: req.params.id }, function(err, result) {
-    if (err) console.log(err);
+    if (err) res.status(500).send();
     res.send(result);
   });
 });
+
 module.exports = router;

@@ -21,12 +21,14 @@ router.put('/clients/:id', function(req, res) {
     }
   );
 });
+
 router.put('/clients/:id/activate', function(req, res) {
   Client.findOneAndUpdate({ _id: req.params.id }, { $set: { isActive: true } }, { new: true }, function(err, doc) {
     if (err) console.log(err);
     res.send(doc);
   });
 });
+
 router.put('/clients/:id/deactivate', function(req, res) {
   Client.findOneAndUpdate({ _id: req.params.id }, { $set: { isActive: false } }, { new: true }, function(err, doc) {
     if (err) console.log(err);
@@ -40,6 +42,7 @@ router.get('/clients', function(req, res) {
     res.send(clients);
   });
 });
+
 router.get('/clients/all', function(req, res) {
   Client.find({}, function(err, clients) {
     if (err) return console.error(err);
