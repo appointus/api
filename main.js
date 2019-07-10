@@ -5,8 +5,11 @@ var cron = require('./crons/smsTomorrow');
 var crons = require('./crons/smsWeek');
 var config = require('./config');
 var cors = require('cors');
+
 var mongoose = require('mongoose');
+
 app.use(cors());
+
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 mongoose.connect(config.mongoURI, { useNewUrlParser: true }, function(err) {
