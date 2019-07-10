@@ -2,6 +2,7 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var cron = require('./crons/smsTomorrow');
+var crons = require('./crons/smsWeek');
 var config = require('./config');
 var cors = require('cors');
 
@@ -24,3 +25,4 @@ app.use(require('./routes/appointments'));
 app.listen(config.port);
 
 cron.runSMS();
+crons.runSMSWeek();
