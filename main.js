@@ -1,12 +1,12 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
-var cron = require('./crons/smsTomorrow');
-var crons = require('./crons/smsWeek');
-var config = require('./config');
-var cors = require('cors');
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const cron = require('./crons/smsTomorrow');
+const crons = require('./crons/smsWeek');
+const config = require('./config');
+const cors = require('cors');
 
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 app.use(cors());
 
