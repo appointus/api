@@ -8,9 +8,9 @@ const authData = { login: '', password: '' };
 let smsClient = null;
 
 // TODO: check init runs once
-let init = (async function() {
+const init = (async function() {
   if (smsClient) return;
-  let client = await soap.createClientAsync(url);
+  const client = await soap.createClientAsync(url);
   await client.AuthAsync(authData);
   client.setSecurity(new Cookie(client.lastResponseHeaders));
   smsClient = client;

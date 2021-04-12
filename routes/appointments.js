@@ -1,6 +1,6 @@
 const router = require('express').Router();
-var Appointment = require('../models/appointments');
-var moment = require('moment');
+const Appointment = require('../models/appointments');
+const moment = require('moment');
 
 const BaseJoi = require('@hapi/joi');
 const Extension = require('@hapi/joi-date');
@@ -16,8 +16,8 @@ router.get('/appointments/:date', function(req, res) {
 });
 
 router.post('/appointments', function(req, res) {
-  var currentDate = moment().format('YYYY-MM-DD');
-  var currentTime = moment().format('H:mm');
+  const currentDate = moment().format('YYYY-MM-DD');
+  const currentTime = moment().format('H:mm');
   const { error } = validateAppointment(req.body);
   if (error) return res.status(400).send(error.details[0].message);
   if (
@@ -25,7 +25,7 @@ router.post('/appointments', function(req, res) {
     (moment(currentDate).isSame(req.body.date) && currentTime >= req.body.time)
   )
     return res.status(400).send('It is not possible to add an appointment in the past');
-  var appointmentToAdd = new Appointment({
+  const appointmentToAdd = new Appointment({
     date: req.body.date,
     time: req.body.time,
     client: req.body.client
@@ -46,7 +46,7 @@ router.post('/appointments', function(req, res) {
 
 router.put('/appointments/:id', function(req, res) {
   if (Object.keys(req.body).length === 0) res.status(500).send('Error');
-  var newAppointment = {};
+  const newAppointment = {};
   const allowedProps = [ 'date', 'time' ];
   allowedProps.forEach((prop) => {
     if (req.body.hasOwnProperty(prop)) newAppointment[prop] = req.body[prop];
