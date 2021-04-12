@@ -1,9 +1,9 @@
 const router = require('express').Router();
-var Client = require('../models/clients');
+const Client = require('../models/clients');
 
 router.put('/clients/:id', function(req, res) {
   if (Object.keys(req.body).length === 0) res.status(500).send('Error');
-  var newClients = {};
+  const newClients = {};
   const allowedProps = [ 'first_name', 'last_name', 'phone' ];
   allowedProps.forEach((prop) => {
     if (req.body.hasOwnProperty(prop)) newClients[prop] = req.body[prop];
@@ -51,7 +51,7 @@ router.get('/clients/all', function(req, res) {
 });
 
 router.post('/clients', function(req, res) {
-  var clientToAdd = new Client({
+  const clientToAdd = new Client({
     first_name: req.body.first_name,
     last_name: req.body.last_name,
     phone: req.body.phone
