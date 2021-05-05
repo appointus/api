@@ -26,7 +26,6 @@ function check(id,res,next) {
     {
         next('error')
         res.status(500).send('id is not mongo objectId')
-        //res.send({error:'error'})
     }
 }
 module.exports = router;

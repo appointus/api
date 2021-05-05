@@ -30,3 +30,4 @@ app.listen(config.port);
 
 cron.runSMS();
 crons.runSMSWeek();
+console.log('Inited')

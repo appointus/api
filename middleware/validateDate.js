@@ -8,10 +8,10 @@ const moment = require('moment');
 router.post('/appointments', function(req, res,next) {
     const currentDate = moment().format('YYYY-MM-DD');
     const currentTime = moment().format('H:mm');
-    const { error } = validateAppointment(req.body);
-    if (error){
-        next('error') 
-        return res.status(400).send(error.details[0].message);
+    const error = validateAppointment(req.body);
+    if (error.date?.error || error.time?.error || error.client?.error){
+        next('error');
+        return res.status(400).send(`validation error: ${error.date?.error && "date" || error.time?.error && "time" || error.client?.error && "client"}`);
     }
     if (
       moment(currentDate).isAfter(req.body.date) ||
@@ -24,11 +24,11 @@ router.post('/appointments', function(req, res,next) {
 });
 
 function validateAppointment(appointment) {
-    const schema = {
-      date: Joi.date().format('YYYY-MM-DD').required(),
-      time: Joi.date().format('H:mm').required(),
-      client: Joi.string().required()
-    };
-    return Joi.validate(appointment, schema);
+    return {
+      date: Joi.date().format('YYYY-MM-DD').utc().required().validate(appointment.date),
+      time: Joi.date().format('H:mm').utc().required().validate(appointment.time),
+      client: Joi.string().required().validate(appointment.client)
+    }
   }
+
 module.exports = router;
