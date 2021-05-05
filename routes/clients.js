@@ -2,7 +2,7 @@ const router = require('express').Router();
 const Client = require('../models/clients');
 
 router.put('/clients/:id', function(req, res) {
-  if (Object.keys(req.body).length === 0) res.status(500).send('Error');
+  // if (Object.keys(req.body).length === 0) res.status(500).send('Error');
   const newClients = {};
   const allowedProps = [ 'first_name', 'last_name', 'phone' ];
   allowedProps.forEach((prop) => {
@@ -16,6 +16,7 @@ router.put('/clients/:id', function(req, res) {
     },
     { new: true },
     function(err, doc) {
+      
       if (err) console.log(err);
       res.send(doc);
     }

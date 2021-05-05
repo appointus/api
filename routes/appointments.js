@@ -16,26 +16,28 @@ router.get('/appointments/:date', function(req, res) {
 });
 
 router.post('/appointments', function(req, res) {
-  const currentDate = moment().format('YYYY-MM-DD');
-  const currentTime = moment().format('H:mm');
-  const { error } = validateAppointment(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-  if (
-    moment(currentDate).isAfter(req.body.date) ||
-    (moment(currentDate).isSame(req.body.date) && currentTime >= req.body.time)
-  )
-    return res.status(400).send('It is not possible to add an appointment in the past');
   const appointmentToAdd = new Appointment({
     date: req.body.date,
     time: req.body.time,
     client: req.body.client
   });
   appointmentToAdd.save(function(err, appointment) {
-    if (err) console.log(err);
+    if (err) {
+      res.send(err)
+      return 
+    }
+    
     res.send(appointment);
-    Client.findById(appointment.client, function(err, clients) {
-      if (err) console.log(err);
 
+    Client.findById(appointment.client, function(err, clients) {
+      if (err) {
+        console.log(`Client error ${err}`)
+        return 
+      }
+      if (!clients){
+        console.log('error client not found')
+        return
+      }
       turboSms.sendSmsClient(
         `${clients.phone}`,
         `Dear ${clients.first_name} ${clients.last_name},  we notify you that you have new appointment on ${appointment.date}, at ${appointment.time} `
@@ -71,14 +73,4 @@ router.delete('/appointments/:id/delete', function(req, res) {
     res.send(result);
   });
 });
-
-function validateAppointment(appointment) {
-  const schema = {
-    date: Joi.date().format('YYYY-MM-DD').required(),
-    time: Joi.date().format('H:mm').required(),
-    client: Joi.string().required()
-  };
-  return Joi.validate(appointment, schema);
-}
-
 module.exports = router;
