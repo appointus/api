@@ -3,7 +3,6 @@ const app = express();
 const bodyParser = require('body-parser');
 const cron = require('./crons/smsTomorrow');
 const crons = require('./crons/smsWeek');
-const config = require('./config');
 const cors = require('cors');
 require('dotenv').config()
 
