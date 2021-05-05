@@ -9,6 +9,8 @@ const turboSms = require('./../utils/turboSms');
 const Client = require('../models/clients');
 
 router.get('/appointments/:date', function(req, res) {
+ // req.params?.date
+
   Appointment.find({ date: req.params.date }).populate('client').exec(function(err, client) {
     if (err) console.error(err);
     res.send(client);
